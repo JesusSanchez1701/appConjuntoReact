@@ -1,11 +1,14 @@
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native"
-import { useApi } from "../../../Hooks/useApi"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import { useApi } from "../../../Hooks/useApi";
+import { useGenerales } from '../../../Hooks/useGenerales';
 function useLogin() {
     const navigation = useNavigation<any>()
     const { peticionPost } = useApi()
     const [saveUser, setSaveUser] = useState(false);
+    const { responsePeticion } = useGenerales()
+
 
 
     const openRegistro = () => {
@@ -23,32 +26,26 @@ function useLogin() {
     const openIngresar = async (dataLogin: any) => {
 
         const peticionApi = await peticionPost('loginUsuario', dataLogin)
-        if (peticionApi && typeof peticionApi === 'object' && 'data' in peticionApi) {
-            const response = peticionApi as { data: { status: number; respuesta: string } }
-            if (response.data.status === 200) {
-                const rawRespuesta = response?.data?.respuesta
-                const dataUser = typeof rawRespuesta === 'string' ? JSON.parse(rawRespuesta) : rawRespuesta
-                if (dataUser && typeof dataUser === 'object') {
-                    delete (dataUser as Record<string, any>).id_rol
-                    await AsyncStorage.setItem("infoUsuario", JSON.stringify(dataUser))
-                    navigation.navigate('Views')
-                } 
-
-            }
+        const dataUser = await responsePeticion(peticionApi)
+        if (dataUser && typeof dataUser === 'object') {
+            delete (dataUser as Record<string, any>).id_rol
+            await AsyncStorage.setItem("infoUsuario", JSON.stringify(dataUser))
+            navigation.navigate('Views')
         }
 
     }
 
+    
 
     return {
         openRegistro,
         openIngresar,
         recordarUsuario,
-        saveUser,
+        saveUser
 
 
 
     }
 }
 
-export { useLogin }
+export { useLogin };

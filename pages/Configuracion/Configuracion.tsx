@@ -1,8 +1,8 @@
-import { View, Text, ScrollView } from "react-native"
-import Card from "../../components/Card/Card"
-import globalStyles from "../../StylesGlobal/stylesGlobal"
-import { Inputs } from "../../components/Inputs/Inputs"
+import { ScrollView, Text, View } from "react-native"
 import Button from "../../components/Button/Button"
+import Card from "../../components/Card/Card"
+import { Inputs } from "../../components/Inputs/Inputs"
+import globalStyles from "../../StylesGlobal/stylesGlobal"
 import styles from "./styles/styles"
 
 //hooks
@@ -66,24 +66,6 @@ export default function Configuracion() {
             </>
           } />
 
-          {/* peticiones realizadas */}
-
-          <Card _style={styles.cardStyles} _children={
-            <>
-              <View style={styles.contanerTitle}>
-                <Text style={styles.tituloCard}>Peticiones realizadas</Text>
-              </View>
-              <View style={styles.containerInfo}>
-                <Text>Reparacion fuga de agua</Text>
-                <Text style={styles.textoCompletado}>Completada</Text>
-              </View>
-
-              <View style={styles.containerInfo}>
-                <Text>Reserva de salon social</Text>
-                <Text style={styles.textoPendiente}>Pendiente</Text>
-              </View>
-            </>
-          } />
 
           {/* card actualizar informacion */}
 

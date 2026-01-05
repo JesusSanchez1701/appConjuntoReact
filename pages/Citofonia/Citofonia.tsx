@@ -1,12 +1,12 @@
-import { View, Text } from "react-native"
-import Card from "../../components/Card/Card"
-import globalStyles from "../../StylesGlobal/stylesGlobal"
-import styles from "./styles/styles"
 import Feather from '@expo/vector-icons/Feather';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import Buscador from "../../components/Buscador/Buscador";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Text, View } from "react-native";
+import Buscador from "../../components/Buscador/Buscador";
+import Card from "../../components/Card/Card";
+import globalStyles from "../../StylesGlobal/stylesGlobal";
 import { useCitofonia } from "./Hooks/useCitofonia";
+import styles from "./styles/styles";
 
 
 export default function Citofonia() {

@@ -138,6 +138,11 @@ const globalStyles = StyleSheet.create({
         paddingVertical:30,
         paddingHorizontal:15,
         backgroundColor:"#f27623ff"
+    },
+
+    textErrorForm:{
+        color: 'red',
+        padding:4
     }
 });
 export default globalStyles;

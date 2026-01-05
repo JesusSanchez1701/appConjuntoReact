@@ -11,17 +11,21 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginBottom: 10
     },
-    contentTitulo:{
-        display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-        width:"90%"
+    contentTitulo: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "90%"
     },
     textoAnuncio: {
         fontWeight: "bold",
         fontSize: 18,
         textAlign: "center",
-    }
+    },
+    pagerView: {
+        flex: 1,
+        width:"50%"
+    },
 })
 
 export default styles;

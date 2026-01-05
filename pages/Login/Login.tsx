@@ -1,11 +1,11 @@
-import { Text, View, useColorScheme, TouchableOpacity, Pressable } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Inputs } from '../../components/Inputs/Inputs';
-import Button from '../../components/Button/Button';
 import Checkbox from 'expo-checkbox';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Controller, useForm } from 'react-hook-form';
+import { Pressable, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
+import Button from '../../components/Button/Button';
+import { Inputs } from '../../components/Inputs/Inputs';
 import globalStyles from '../../StylesGlobal/stylesGlobal';
 import { useLogin } from './useLogin/useLogin';
-import { Controller, useForm } from 'react-hook-form';
 export default function Login() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
@@ -52,6 +52,7 @@ export default function Login() {
               _type='email-address'
             />)}
         />
+        {errors.correo && <Text style={globalStyles.textErrorForm}>El correo es obligatorio.</Text>}
       </View>
 
       <View style={{ width: '100%' }}>
@@ -70,6 +71,8 @@ export default function Login() {
             />
           )}
         />
+        {errors.correo && <Text style={globalStyles.textErrorForm}>La contraseña es obligatoria.</Text>}
+
       </View>
       <View style={globalStyles.contenedorOlvidarPass}>
         <View style={globalStyles.contenedorCheckbox}>

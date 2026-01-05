@@ -3,8 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Buscador from "../../components/Buscador/Buscador";
-import styles from "./styles/styles";
-export default function Publicaciones() {
+import styles from "../Publicaciones/styles/styles";
+export default function Conjunto() {
     const navigate = useNavigation<any>()
     return (
         <>
@@ -15,7 +15,7 @@ export default function Publicaciones() {
                             <AntDesign name="arrow-left" size={24} color="black" />
                         </Pressable>
                         <View style={styles.contentTitulo}>
-                            <Text style={styles.textoAnuncio}>Publicaciones</Text>
+                            <Text style={styles.textoAnuncio}>Tus conjuntos</Text>
 
                         </View>
                     </View>
@@ -23,6 +23,5 @@ export default function Publicaciones() {
                 </View>
             </SafeAreaView>
         </>
-
     )
 }

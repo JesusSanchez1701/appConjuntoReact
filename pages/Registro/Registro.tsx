@@ -1,7 +1,8 @@
-import { Text, View, useColorScheme, TouchableOpacity, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Inputs } from '../../components/Inputs/Inputs';
+import { Controller, useForm } from 'react-hook-form';
+import { Pressable, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import Button from '../../components/Button/Button';
+import { Inputs } from '../../components/Inputs/Inputs';
 import globalStyles from '../../StylesGlobal/stylesGlobal';
 import { useRegistro } from './useRegistro/useRegistro';
 
@@ -11,8 +12,20 @@ export default function Registro() {
 
     const textStyle = isDarkMode ? globalStyles.textDark : globalStyles.textLight;
 
-    const {openLogin} = useRegistro();
+    const { openLogin, registrarUsuario } = useRegistro();
 
+    const { control, handleSubmit, formState: { errors } } = useForm(
+        {
+            defaultValues: {
+                nombresApellidos: '',
+                correo: '',
+                apartamento: '',
+                celular: '',
+                pass: '',
+                codConjunto: ''
+            }
+        }
+    )
 
     return (
         <LinearGradient
@@ -27,31 +40,134 @@ export default function Registro() {
                 <Text style={[textStyle]}>Unete para empezar a conectar</Text>
             </View>
 
-            <View style={{width: '100%'}}>
-                <Inputs _placeholder='Correo Electrónico' _type='email-address' />
+
+            <View style={{ width: '100%' }}>
+                <Controller
+                    control={control}
+                    name='nombresApellidos'
+                    rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <Inputs
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            _placeholder='Nombres y apellidos'
+                            _type='default'
+                        />
+                    )}
+                />
+                {errors.correo && <Text style={globalStyles.textErrorForm}>Nombres y apellidos son obligatorios.</Text>}
+
             </View>
-            <View style={{width: '100%'}}>
-                <Inputs _placeholder='Nombres y apellidos' _type='default' />
+
+
+            <View style={{ width: '100%' }}>
+                <Controller
+                    control={control}
+                    name='correo'
+                    rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <Inputs
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            _placeholder='Correo Electrónico'
+                            _type='email-address'
+                        />
+
+                    )}
+                />
+                {errors.correo && <Text style={globalStyles.textErrorForm}>El correo es obligatorio.</Text>}
             </View>
-            <View style={{width: '100%'}}>
-                <Inputs _placeholder='Teléfono' _type='phone-pad' />
+
+            <View style={{ width: '100%' }}>
+                <Controller
+                    control={control}
+                    name='apartamento'
+                    rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <Inputs
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            _placeholder='Apartamento'
+                            _type='default'
+                        />
+
+                    )}
+                />
+                {errors.correo && <Text style={globalStyles.textErrorForm}>El apartamento es obligatorio.</Text>}
             </View>
-            <View style={{width: '100%'}}>
-                <Inputs _placeholder='Dirección' _type='default' />
+
+
+            <View style={{ width: '100%' }}>
+                <Controller
+                    control={control}
+                    name='celular'
+                    rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <Inputs
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            _placeholder='Celular'
+                            _type='phone-pad'
+                        />
+                    )}
+                />
+                {errors.correo && <Text style={globalStyles.textErrorForm}>El celular es obligatorio.</Text>}
+
             </View>
-            <View style={{width: '100%'}}>
-                <Inputs _placeholder='Contraseña' _secureTextEntry={true} _type='default' />
+
+
+            <View style={{ width: '100%' }}>
+                <Controller
+                    control={control}
+                    name='pass'
+                    rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <Inputs
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            _placeholder='Contraseña'
+                            _secureTextEntry={true}
+                            _type='default'
+                        />
+
+                    )}
+                />
+                {errors.correo && <Text style={globalStyles.textErrorForm}>La contraseña es obligatoria.</Text>}
+            </View>
+
+            <View style={{ width: '100%' }}>
+                <Controller
+                    control={control}
+                    name='codConjunto'
+                    rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <Inputs
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            _placeholder='Código Conjunto'
+                            _type='default'
+                        />
+
+                    )}
+                />
+                {errors.correo && <Text style={globalStyles.textErrorForm}>El código del conjunto es obligatorio.</Text>}
             </View>
 
             <View style={globalStyles.contenedorButton}>
-                <Button _title='Registrate' />
+                <Button _onPress={handleSubmit(registrarUsuario)} _title='Registrate' />
             </View>
 
             <View style={globalStyles.contenedorEnd}>
                 <Text style={textStyle}>Ya tienes una cuenta? </Text>
                 <TouchableOpacity>
                     <Pressable onPress={openLogin}>
-                    <Text style={globalStyles.textoOlidoPassword}>Inicia Sesión</Text>
+                        <Text style={globalStyles.textoOlidoPassword}>Inicia Sesión</Text>
                     </Pressable>
                 </TouchableOpacity>
             </View>
