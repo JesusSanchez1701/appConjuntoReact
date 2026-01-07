@@ -12,7 +12,6 @@ import styles from "./styles/styles";
 export default function Citofonia() {
   const { listUsuarios } = useCitofonia()
   return (
-    <>
       <View style={styles.container}>
         {/* contacto a porteria */}
         <View style={styles.containerCitofonia}>
@@ -57,7 +56,7 @@ export default function Citofonia() {
         <Buscador />
 
         {/* la lista de los contactos */}
-        {listUsuarios.map((element) => (
+        {listUsuarios.map((element:any) => (
           <Card key={element?.id_usuario} _style={styles.cardStyles} _children={
             <View style={styles.containerCitofonia}>
               <View style={[styles.buttonCardCitofonia, styles.colorContainerIcon]}>
@@ -73,7 +72,6 @@ export default function Citofonia() {
           } />
         ))}
       </View>
-    </>
 
 
   )
