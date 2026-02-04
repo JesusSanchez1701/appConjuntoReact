@@ -19,9 +19,10 @@ function Inputs({ _placeholder, _type="default", _defaultValue, _secureTextEntry
                 defaultValue={_defaultValue}
                 secureTextEntry={_secureTextEntry}
                 keyboardType={_type}
-                onChangeText={onChange}
+                onChangeText={(text) => onChange && onChange(_type === 'email-address' ? text.toLowerCase() : text)}
                 onBlur={onBlur}
                 value={value}
+                autoCapitalize="none"
             />
         </View>
     );

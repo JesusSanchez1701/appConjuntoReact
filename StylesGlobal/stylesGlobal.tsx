@@ -79,13 +79,13 @@ const globalStyles = StyleSheet.create({
         paddingVertical: 5
 
     },
-    headerModal:{
-        padding:10,
+    headerModal: {
+        padding: 10,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between"
     },
-    titleModal:{
+    titleModal: {
         fontSize: 19,
         fontWeight: "bold"
     },
@@ -116,7 +116,7 @@ const globalStyles = StyleSheet.create({
         marginHorizontal: 2,
         marginVertical: 2
     },
-    textbtnCancelar:{
+    textbtnCancelar: {
         color: "#000",
         fontWeight: "bold"
 
@@ -130,19 +130,42 @@ const globalStyles = StyleSheet.create({
         marginTop: 5,
         alignItems: 'center',
     },
-    headerapp:{
+    headerapp: {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingVertical:30,
-        paddingHorizontal:15,
-        backgroundColor:"#f27623ff"
+        paddingVertical: 30,
+        paddingHorizontal: 15,
+        backgroundColor: "#f27623ff"
     },
 
-    textErrorForm:{
+    textErrorForm: {
         color: 'red',
-        padding:4
+        padding: 4
+    },
+    //clases para 3 columnas
+    container3Col: {
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        flexWrap: "wrap",
+        width: "100%",
+        marginVertical: 10,
+    },
+    card3Col: {
+        width: "33.33%",
+        marginBottom: 10,
+        marginHorizontal: 5
+
+    },
+
+    //contenedor servicios
+    contentServicios:{
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        padding: 5
     }
+
 });
 export default globalStyles;

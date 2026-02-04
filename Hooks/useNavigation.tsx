@@ -14,6 +14,7 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Publicaciones from "../pages/Publicaciones/Publicaciones";
 import Registro from "../pages/Registro/Registro";
+import Servicios from "../pages/Servicios/Servicios";
 function useNavigation() {
 
     //menu inferior
@@ -90,7 +91,8 @@ function useNavigation() {
             Registro: Registro,
             Views: MyDrawer,
             Conjunto: Conjunto,
-            Publicaciones: Publicaciones
+            Publicaciones: Publicaciones,
+            Servicios: Servicios
         }
     })
 

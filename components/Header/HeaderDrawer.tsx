@@ -38,7 +38,7 @@ export default function HeaderDrawer() {
                     </View>
                 </Pressable>
 
-                <Pressable onPress={() => navigation.navigate("Conjunto")}>
+                <Pressable onPress={() => navigation.navigate("Servicios")}>
                     <View style={[styles.contentInfoUser, styles.cardsMenu]}>
                         <FontAwesome5 name="home" size={24} color="black" />
                         <Text style={styles.textOpciones}>Pago de servicios</Text>

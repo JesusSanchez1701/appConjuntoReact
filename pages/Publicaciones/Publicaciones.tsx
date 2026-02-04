@@ -7,7 +7,6 @@ import styles from "./styles/styles";
 export default function Publicaciones() {
     const navigate = useNavigation<any>()
     return (
-        <>
             <SafeAreaView>
                 <View style={styles.container}>
                     <View style={styles.headerAnuncios}>
@@ -22,7 +21,5 @@ export default function Publicaciones() {
                     <Buscador />
                 </View>
             </SafeAreaView>
-        </>
-
     )
 }
