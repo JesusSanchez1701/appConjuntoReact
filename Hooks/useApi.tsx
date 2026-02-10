@@ -33,7 +33,7 @@ export function useApi() {
     const peticionPut = async (endPoint: string, parametros: object) => {
         try {
             const url = `${host}/${endPoint}`
-            return await axios.put(url, parametros, { withCredentials: true });
+            return await axios.put(url, parametros,{ withCredentials: true });
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 return error.response;

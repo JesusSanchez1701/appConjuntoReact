@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, TouchableOpacity, View, useColorScheme } f
 import Button from '../../components/Button/Button';
 import { Inputs } from '../../components/Inputs/Inputs';
 import globalStyles from '../../StylesGlobal/stylesGlobal';
-import { useRegistro } from './useRegistro/useRegistro';
+import { useRegistro } from './Hooks/useRegistro';
 
 
 export default function Registro() {

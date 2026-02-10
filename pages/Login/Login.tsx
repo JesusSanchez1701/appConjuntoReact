@@ -5,7 +5,7 @@ import { Pressable, Text, TouchableOpacity, View, useColorScheme } from 'react-n
 import Button from '../../components/Button/Button';
 import { Inputs } from '../../components/Inputs/Inputs';
 import globalStyles from '../../StylesGlobal/stylesGlobal';
-import { useLogin } from './useLogin/useLogin';
+import { useLogin } from './Hooks/useLogin';
 export default function Login() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';

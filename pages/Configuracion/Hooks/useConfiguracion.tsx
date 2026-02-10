@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
+import { Alert } from "react-native"
 import { useApi } from "../../../Hooks/useApi"
 import { useGenerales } from "../../../Hooks/useGenerales"
 
@@ -7,8 +8,8 @@ function useConfiguracion() {
         perfilUsuario()
     }, [])
 
-    const { peticionGet } = useApi()
-    const { informacionUsuario } = useGenerales()
+    const { peticionGet, peticionPut } = useApi()
+    const { informacionUsuario, responsePeticion } = useGenerales()
 
     const [infoUsuario, setInfoUsuario] = useState<any>([])
 
@@ -27,8 +28,25 @@ function useConfiguracion() {
         }
     }
 
+    const actualizarUsuario = async (datos: object) => {
+        const datosUsuario = {
+            apartamento: infoUsuario.apartamento,
+            torre: infoUsuario.torre,
+            id_usuario: infoUsuario.id_usuario
+
+        }
+        const unirDatos = { ...datosUsuario, ...datos }
+        const peticionApi = await peticionPut(`actualizarUsuario/${infoUsuario.id_usuario}`, unirDatos)
+        const dataPeticion = await responsePeticion(peticionApi)
+        if (new Array(dataPeticion).length > 0) {
+            Alert.alert('Exito!', 'Datos actualizados correctamente');
+            perfilUsuario()
+        }
+    }
+
     return {
-        infoUsuario
+        infoUsuario,
+        actualizarUsuario
     }
 }
 
