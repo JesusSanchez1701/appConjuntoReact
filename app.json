@@ -21,7 +21,16 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Necesitamos acceso al micrófono para realizar llamadas",
+        "NSCameraUsageDescription": "Necesitamos acceso a la cámara",
+        "UIBackgroundModes": [
+          "audio",
+          "voip"
+        ]
+      },
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.appConjuntoReact"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +38,11 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.appConjuntoReact"
     },
     "web": {
       "favicon": "./assets/favicon.png"

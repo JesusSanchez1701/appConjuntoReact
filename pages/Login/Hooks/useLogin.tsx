@@ -1,13 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
 import { useApi } from "../../../Hooks/useApi";
 import { useGenerales } from '../../../Hooks/useGenerales';
+import { setInformacionUsuario } from "../../../redux/loginReducer";
 function useLogin() {
     const navigation = useNavigation<any>()
     const { peticionPost } = useApi()
     const [saveUser, setSaveUser] = useState(false);
     const { responsePeticion } = useGenerales()
+    const dispatch = useDispatch();
 
 
 
@@ -28,8 +31,8 @@ function useLogin() {
         const peticionApi = await peticionPost('loginUsuario', dataLogin)
         const dataUser = await responsePeticion(peticionApi)
         if (dataUser && typeof dataUser === 'object') {
-            delete (dataUser as Record<string, any>).id_rol
             await AsyncStorage.setItem("infoUsuario", JSON.stringify(dataUser))
+            dispatch(setInformacionUsuario(dataUser))
             navigation.navigate('Views')
         }
 

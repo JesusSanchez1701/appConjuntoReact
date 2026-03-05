@@ -42,6 +42,23 @@ export function useApi() {
         }
     }
 
+    const peticionPostMultipart = async (endPoint: string, formData: FormData) => {
+        try {
+            const url = `${host}/${endPoint}`
+            return await axios.post(url, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                withCredentials: true
+            });
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return error.response;
+            }
+            return error;
+        }
+    }
+
     return {
         peticionGet,
         peticionPost,

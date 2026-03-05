@@ -1,5 +1,4 @@
-import { View, Text } from "react-native"
-import { Image } from "react-native"
+import { Image, Text, View } from "react-native"
 import styles from "./styles/styles"
 import { CardComponent } from "./types"
 export default function Card({ _imagen, _body, _titulo, _children, _style }: CardComponent) {

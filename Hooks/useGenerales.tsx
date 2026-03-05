@@ -3,6 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from "react";
 import { Alert, Linking } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { limpiarStateLogin } from "../redux/loginReducer";
 import { useApi } from "./useApi";
 function useGenerales() {
     const [modalVisible, setModalVisible] = useState(false)
@@ -10,6 +12,9 @@ function useGenerales() {
     const navigation = useNavigation<any>()
     const [image, setImage] = useState<any>([]);
     const { peticionPost } = useApi()
+    //redux
+    const dataUsuario = useSelector((state: any) => state.loginReducer.informacionUsuario)
+    const dispatch = useDispatch()
 
     const informacionUsuario = async () => {
         const infoUsuario = await AsyncStorage.getItem("infoUsuario")
@@ -22,6 +27,7 @@ function useGenerales() {
 
     const cerrarSesion = async () => {
         await AsyncStorage.removeItem("infoUsuario")
+        dispatch(limpiarStateLogin())
         navigation.navigate("Login")
     }
 
@@ -77,6 +83,7 @@ function useGenerales() {
         modalVisible,
         infoUsuario,
         image,
+        dataUsuario,
         setModalVisible,
         informacionUsuario,
         cerrarSesion,

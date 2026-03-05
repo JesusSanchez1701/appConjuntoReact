@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //pages
 import Header from "../components/Header/Header";
 import HeaderDrawer from "../components/Header/HeaderDrawer";
+import ModalCall from "../components/ModalCall/ModalCall";
 import Citofonia from "../pages/Citofonia/Citofonia";
 import Configuracion from "../pages/Configuracion/Configuracion";
 import Conjunto from "../pages/Conjunto/Conjunto";
@@ -45,8 +46,9 @@ function useNavigation() {
             Home: Home,
             Citofonia: Citofonia,
             Configuracion: Configuracion
-        }
-    });
+        },
+
+    },);
 
     //menu lateral hamburgesa
     const MyDrawer = createDrawerNavigator({
@@ -63,7 +65,7 @@ function useNavigation() {
                     />
                 );
             },
-            
+
             headerShown: false,
             drawerActiveBackgroundColor: '#f27623ff',
             drawerActiveTintColor: '#fff',
@@ -93,6 +95,16 @@ function useNavigation() {
             Conjunto: Conjunto,
             Publicaciones: Publicaciones,
             Servicios: Servicios
+        },
+        groups: {
+            Modal: {
+                screenOptions: {
+                    presentation: 'modal',
+                },
+                screens: {
+                    ModalCall: ModalCall,
+                },
+            },
         }
     })
 
