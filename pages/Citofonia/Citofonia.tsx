@@ -77,8 +77,12 @@ export default function Citofonia() {
         } />
       ))}
 
-      <Button _title='contestar llamada' _onPress={contestarLlamada}/>
-      <Button _title='colgar llamada' _onPress={colgarLlamada}/>
+      <Button _title='contestar llamada' _onPress={contestarLlamada} />
+      <Button _title='colgar llamada' _onPress={colgarLlamada} />
+
+      {/* Este componente es ESENCIAL para que el audio se reproduzca */}
+
+      
     </View>
 
 

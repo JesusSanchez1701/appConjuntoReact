@@ -26,6 +26,7 @@
     "react-hook-form": "^7.66.0",
     "react-native": "0.81.4",
     "react-native-callkeep": "^4.3.16",
+    "react-native-incall-manager": "^4.2.1",
     "react-native-modal": "^14.0.0-rc.1",
     "react-native-pager-view": "6.9.1",
     "react-native-reanimated": "~4.1.1",

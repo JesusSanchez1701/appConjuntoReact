@@ -21,16 +21,20 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "bundleIdentifier": "com.anonymous.appConjuntoReact",
+      "supportsTablet": true,
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Necesitamos acceso al micrófono para realizar llamadas",
         "NSCameraUsageDescription": "Necesitamos acceso a la cámara",
+        "NSPhotoLibraryUsageDescription": "Permitir acceso a fotos si se comparten imágenes",
         "UIBackgroundModes": [
           "audio",
           "voip"
-        ]
-      },
-      "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.appConjuntoReact"
+        ],
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {

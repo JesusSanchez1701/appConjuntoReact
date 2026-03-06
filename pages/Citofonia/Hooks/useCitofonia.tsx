@@ -16,6 +16,7 @@ let globalLocalStream: any = null;
 let globalRemoteStream: any = null;
 let globalOtherUserId: string | null = null;
 
+
 function useCitofonia() {
     const navigation = useNavigation<any>();
     const { peticionGet } = useApi();
@@ -23,12 +24,10 @@ function useCitofonia() {
 
     const [listUsuarios, setListUsuarios] = useState<any[]>([]);
     const [localStream, setLocalStream] = useState<any>(globalLocalStream);
-    const [remoteStream, setRemoteStream] = useState<any>(globalRemoteStream);
     const [isCalling, setIsCalling] = useState(false);
 
     const myUserId = useRef<string | null>(null);
     const incomingCallRef = useRef<any>(null);
-
 
     // Helpers para actualizar estado global y local simultáneamente
     const updateLocalStream = (stream: any) => {
@@ -36,10 +35,6 @@ function useCitofonia() {
         setLocalStream(stream);
     };
 
-    const updateRemoteStream = (stream: any) => {
-        globalRemoteStream = stream;
-        setRemoteStream(stream);
-    };
 
     // ===============================
     // INIT
@@ -47,7 +42,6 @@ function useCitofonia() {
     useEffect(() => {
         // Sincronizar estado al montar el hook
         setLocalStream(globalLocalStream);
-        setRemoteStream(globalRemoteStream);
 
         const init = async () => {
             listarUsuariosConjunto();
@@ -113,13 +107,13 @@ function useCitofonia() {
         socket.on("incoming-call", onIncomingCall);
         socket.on("call-answered", onCallAnswered);
         socket.on("ice-candidate", onIceCandidate);
-        socket.on("call-ended", onCallEnded);
+        socket.on("end-call", onCallEnded);
 
         return () => {
             socket.off("incoming-call", onIncomingCall);
             socket.off("call-answered", onCallAnswered);
             socket.off("ice-candidate", onIceCandidate);
-            socket.off("call-ended", onCallEnded);
+            socket.off("end-call", onCallEnded);
         };
     }, [dataUsuario, navigation]); // Eliminada dependencia contestarLlamada para evitar ciclos
 
@@ -133,10 +127,11 @@ function useCitofonia() {
             iceServers: [
                 { urls: "stun:stun.l.google.com:19302" }
             ],
-            sdpSemantics: "unified-plan"
+            sdpSemantics: "unified-plan",
+            iceCandidatePoolSize: 10
         });
-
-        pc.onicecandidate = event => {
+        
+        pc.onicecandidate = (event: any) => {
             if (event.candidate && globalOtherUserId) {
                 socket.emit("ice-candidate", {
                     to: globalOtherUserId,
@@ -145,11 +140,13 @@ function useCitofonia() {
             }
         };
 
-        pc.ontrack = event => {
-            console.log("REMOTE STREAM", event.streams);
-            if (event.streams && event.streams[0]) {
-                updateRemoteStream(event.streams[0]);
-            }
+        pc.ontrack = (event: any) => {
+            const stream = event.streams[0];
+
+            if (!stream) return;
+
+            console.log("REMOTE STREAM:", stream);
+            console.log("REMOTE AUDIO TRACKS:", stream.getAudioTracks());
         };
 
         globalPeerConnection = pc;
@@ -158,8 +155,12 @@ function useCitofonia() {
 
     const iniciarMedia = async () => {
         const stream = await mediaDevices.getUserMedia({
-            audio: true,
-            video: false,
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true
+            },
+            video: false
         });
 
         updateLocalStream(stream);
@@ -170,6 +171,11 @@ function useCitofonia() {
         setIsCalling(true);
         if (!myUserId.current || !globalOtherUserId) return;
 
+        InCallManager.start({ media: "audio", auto: true });
+        InCallManager.setForceSpeakerphoneOn(true);
+        InCallManager.setSpeakerphoneOn(true);
+        InCallManager.setMicrophoneMute(false);
+
         const stream = await iniciarMedia();
         const pc = setupPeerConnection();
 
@@ -177,7 +183,10 @@ function useCitofonia() {
             pc.addTrack(track, stream)
         );
 
-        const offer = await pc.createOffer();
+        const offer = await pc.createOffer({
+            offerToReceiveAudio: true,
+            offerToReceiveVideo: false
+        });
         await pc.setLocalDescription(offer);
 
         socket.emit("call-user", {
@@ -204,12 +213,14 @@ function useCitofonia() {
     // ===============================
     const contestarLlamada = async () => {
         const callData = incomingCallRef.current;
-
         if (!callData) return;
 
         setIsCalling(true);
         // Navegar al modal para ver la interfaz
         // navigation.navigate("ModalCall", { isIncomingCall: true, from: callData.from });
+
+        InCallManager.start({ media: "audio", auto: true });
+        InCallManager.setForceSpeakerphoneOn(true);
 
         const pc = setupPeerConnection();
         const stream = await iniciarMedia();
@@ -222,15 +233,16 @@ function useCitofonia() {
             new RTCSessionDescription(callData.offer)
         );
 
-        const answer = await pc.createAnswer();
+        const answer = await pc.createAnswer({
+            offerToReceiveAudio: true,
+            offerToReceiveVideo: false
+        });
         await pc.setLocalDescription(answer);
 
         socket.emit("answer-call", {
             to: callData.from,
             answer,
         });
-        console.log(stream.getAudioTracks(), "audio hay");
-        InCallManager.start({ media: "audio" });
         incomingCallRef.current = null;
     };
 
@@ -239,7 +251,7 @@ function useCitofonia() {
     // ===============================
     const colgarLlamada = () => {
         if (globalOtherUserId) {
-            socket.emit("call-ended", {
+            socket.emit("end-call", {
                 to: globalOtherUserId,
             });
         }
@@ -263,7 +275,6 @@ function useCitofonia() {
             updateLocalStream(null);
         }
 
-        updateRemoteStream(null);
         setIsCalling(false);
         globalOtherUserId = null;
         incomingCallRef.current = null;
@@ -283,7 +294,6 @@ function useCitofonia() {
         colgarLlamada,
         listUsuarios,
         localStream,
-        remoteStream,
         isCalling,
     };
 }
