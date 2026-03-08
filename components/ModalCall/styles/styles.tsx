@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
     },
     hangupButton: {
-        backgroundColor: '#ef4444',
         width: 80,
         height: 80,
         borderRadius: 40,
@@ -147,7 +146,22 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 50,
         elevation: 20,
-    }
+    },
+    contenedorButtonsllamada:{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    hangupButtonAceptar: {
+        backgroundColor: '#3df025ff',
+
+    },
+    hangupButtonRechazar: {
+        backgroundColor: '#ef4444',
+
+    },
+
 });
 
 export default styles;

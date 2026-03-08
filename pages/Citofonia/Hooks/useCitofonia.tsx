@@ -1,11 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
-import { Alert } from "react-native";
 import InCallManager from "react-native-incall-manager";
 import { mediaDevices, RTCIceCandidate, RTCPeerConnection, RTCSessionDescription } from "react-native-webrtc";
 import { io } from "socket.io-client";
 import { useApi } from "../../../Hooks/useApi";
+
 import { useGenerales } from "../../../Hooks/useGenerales";
+import { useNotificacion } from '../../../Hooks/useNotificacion';
 const socket = io("http://localhost:8086", {
     path: "/appConjuntosApi/socket.io"
 });
@@ -13,7 +14,6 @@ const socket = io("http://localhost:8086", {
 // Variables globales para mantener la conexión activa entre pantallas
 let globalPeerConnection: RTCPeerConnection | null = null;
 let globalLocalStream: any = null;
-let globalRemoteStream: any = null;
 let globalOtherUserId: string | null = null;
 
 
@@ -28,6 +28,8 @@ function useCitofonia() {
 
     const myUserId = useRef<string | null>(null);
     const incomingCallRef = useRef<any>(null);
+
+    const {notificacionLlamada} = useNotificacion()
 
     // Helpers para actualizar estado global y local simultáneamente
     const updateLocalStream = (stream: any) => {
@@ -58,27 +60,28 @@ function useCitofonia() {
             globalOtherUserId = from;
             incomingCallRef.current = { from, offer };
 
-            Alert.alert(
-                "Llamada Entrante",
-                `Te está llamando: ${from}`,
-                [
-                    {
-                        text: "Rechazar",
-                        onPress: () => {
-                            socket.emit("call-ended", { to: from });
-                            incomingCallRef.current = null;
-                        },
-                        style: "cancel"
-                    },
-                    {
-                        text: "Contestar",
-                        onPress: () => {
-                            contestarLlamada();
-                        }
-                    }
-                ],
-                { cancelable: false }
-            );
+            notificacionLlamada(from)
+            // Alert.alert(
+            //     "Llamada Entrante",
+            //     `Te está llamando: ${from}`,
+            //     [
+            //         {
+            //             text: "Rechazar",
+            //             onPress: () => {
+            //                 socket.emit("call-ended", { to: from });
+            //                 incomingCallRef.current = null;
+            //             },
+            //             style: "cancel"
+            //         },
+            //         {
+            //             text: "Contestar",
+            //             onPress: () => {
+            //                 contestarLlamada();
+            //             }
+            //         }
+            //     ],
+            //     { cancelable: false }
+            // );
         };
 
         const onCallAnswered = async ({ answer }: any) => {
@@ -130,7 +133,7 @@ function useCitofonia() {
             sdpSemantics: "unified-plan",
             iceCandidatePoolSize: 10
         });
-        
+
         pc.onicecandidate = (event: any) => {
             if (event.candidate && globalOtherUserId) {
                 socket.emit("ice-candidate", {
@@ -212,6 +215,7 @@ function useCitofonia() {
     // CONTESTAR
     // ===============================
     const contestarLlamada = async () => {
+        console.log("se contesto")
         const callData = incomingCallRef.current;
         if (!callData) return;
 
@@ -288,10 +292,12 @@ function useCitofonia() {
         }
     };
 
+    
     return {
         llamarUsuario,
         contestarLlamada,
         colgarLlamada,
+        notificacionLlamada,
         listUsuarios,
         localStream,
         isCalling,

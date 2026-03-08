@@ -12,7 +12,7 @@ import styles from './styles/styles';
 export default function ModalCall() {
     const navigation = useNavigation<any>()
     const [timer, setTimer] = useState(0);
-    const {colgarLlamada} = useCitofonia()
+    const { contestarLlamada, colgarLlamada } = useCitofonia()
     useEffect(() => {
         const interval = setInterval(() => {
             setTimer((prev) => prev + 1);
@@ -71,13 +71,18 @@ export default function ModalCall() {
                             <Text style={styles.speakerText}>ALTAVOZ</Text>
                         </View>
                     </View>
+                    {/* botones de contestar y rechazar  */}
+                    <View style={styles.contenedorButtonsllamada}>
+                        <TouchableOpacity onPress={() => [contestarLlamada()]} style={[styles.hangupButton, styles.hangupButtonAceptar]}>
+                            <FontAwesome name="phone" size={36} color="white" />
+                        </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => [colgarLlamada(), navigation.goBack()]} style={styles.hangupButton}>
-                        <FontAwesome name="phone" size={36} color="white" />
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={() => [navigation.goBack()]} style={[styles.hangupButton, styles.hangupButtonRechazar]}>
+                            <FontAwesome name="phone" size={36} color="white" />
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
-
-
             </SafeAreaView>
         </LinearGradient>
     )
