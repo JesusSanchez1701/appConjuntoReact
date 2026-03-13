@@ -25,17 +25,12 @@ export default function ModalCall({ route }: any) {
 
 
     const contestar = () => {
-        console.log(route.params)
         route.params.funcion[0]()
     }
 
     const colgar = () => {
         route.params.funcion[1]()
         navigation.goBack()
-    }
-
-    const rechazar = () =>{
-
     }
 
     return (

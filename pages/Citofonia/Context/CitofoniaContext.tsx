@@ -58,28 +58,7 @@ function CitofoniaProvider({ children }: any) {
         const onIncomingCall = async ({ from, offer }: any) => {
             globalOtherUserId = from;
             incomingCallRef.current = { from, offer };
-            navigation.navigate("ModalCall", { isIncomingCall: true, from: from, funcion:[contestarLlamada, colgarLlamada] })
-            // Alert.alert(
-            //     "Llamada Entrante",
-            //     `Te está llamando: ${from}`,
-            //     [
-            //         {
-            //             text: "Rechazar",
-            //             onPress: () => {
-            //                 socket.emit("call-ended", { to: from });
-            //                 incomingCallRef.current = null;
-            //             },
-            //             style: "cancel"
-            //         },
-            //         {
-            //             text: "Contestar",
-            //             onPress: () => {
-            //                 contestarLlamada();
-            //             }
-            //         }
-            //     ],
-            //     { cancelable: false }
-            // );
+            navigation.navigate("ModalCall", { isIncomingCall: true, from: from, funcion: [contestarLlamada, colgarLlamada] })
         };
 
         const onCallAnswered = async ({ answer }: any) => {
@@ -132,11 +111,10 @@ function CitofoniaProvider({ children }: any) {
             iceServers: [
                 { urls: "stun:stun.l.google.com:19302" }
             ],
-            sdpSemantics: "unified-plan",
             iceCandidatePoolSize: 10
         });
 
-        pc.onicecandidate = (event: any) => {
+        (pc as any).onicecandidate = (event: any) => {
             if (event.candidate && globalOtherUserId) {
                 socket.emit("ice-candidate", {
                     to: globalOtherUserId,
@@ -145,7 +123,7 @@ function CitofoniaProvider({ children }: any) {
             }
         };
 
-        pc.ontrack = (event: any) => {
+        (pc as any).ontrack = (event: any) => {
             const stream = event.streams[0];
 
             if (!stream) return;
@@ -160,11 +138,7 @@ function CitofoniaProvider({ children }: any) {
 
     const iniciarMedia = async () => {
         const stream = await mediaDevices.getUserMedia({
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true,
-                autoGainControl: true
-            },
+            audio: true,
             video: false
         });
 
@@ -208,7 +182,7 @@ function CitofoniaProvider({ children }: any) {
         globalOtherUserId = idDestino;
 
         // Navegar a la pantalla de llamada y empezar el proceso
-        navigation.navigate("ModalCall", { isIncomingCall: false, to: dataUsuario, funcion: [contestarLlamada, colgarLlamada]});
+        navigation.navigate("ModalCall", { isIncomingCall: false, to: dataUsuario, funcion: [contestarLlamada, colgarLlamada] });
         await iniciarWebRTC();
     };
 
@@ -218,9 +192,6 @@ function CitofoniaProvider({ children }: any) {
     const contestarLlamada = async () => {
         const callData = incomingCallRef.current;
         if (!callData) return;
-
-        // Navegar al modal para ver la interfaz
-        // navigation.navigate("ModalCall", { isIncomingCall: true, from: callData.from });
 
         InCallManager.start({ media: "audio", auto: true });
         InCallManager.setForceSpeakerphoneOn(true);
@@ -236,10 +207,7 @@ function CitofoniaProvider({ children }: any) {
             new RTCSessionDescription(callData.offer)
         );
 
-        const answer = await pc.createAnswer({
-            offerToReceiveAudio: true,
-            offerToReceiveVideo: false
-        });
+        const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
 
         socket.emit("answer-call", {
@@ -274,7 +242,7 @@ function CitofoniaProvider({ children }: any) {
         }
 
         if (globalLocalStream) {
-            globalLocalStream.getTracks().forEach(t => t.stop());
+            globalLocalStream.getTracks().forEach((t: MediaStreamTrack) => t.stop());
             updateLocalStream(null);
         }
 
