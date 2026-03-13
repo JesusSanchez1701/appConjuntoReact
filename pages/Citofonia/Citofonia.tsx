@@ -3,14 +3,15 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Pressable, Text, View } from "react-native";
 import Buscador from "../../components/Buscador/Buscador";
-import Button from '../../components/Button/Button';
 import Card from "../../components/Card/Card";
 import globalStyles from "../../StylesGlobal/stylesGlobal";
+import { CitofoniaProvider } from "./Context/CitofoniaContext";
 import { useCitofonia } from "./Hooks/useCitofonia";
 import styles from "./styles/styles";
 
-export default function Citofonia() {
-  const { listUsuarios, llamarUsuario, contestarLlamada, colgarLlamada } = useCitofonia()
+const VistaCitofonia = () => {
+  const { listUsuarios, llamarUsuario } = useCitofonia()
+
   return (
     <View style={styles.container}>
       {/* contacto a porteria */}
@@ -76,12 +77,14 @@ export default function Citofonia() {
           </View>
         } />
       ))}
-
-      <Button _title='contestar llamada' _onPress={contestarLlamada} />
-      <Button _title='colgar llamada' _onPress={colgarLlamada} /> 
-      {/* <Button _title='Noticacion' _onPress={notificacionLlamada} />       */}
     </View>
+  )
+}
+export default function Citofonia() {
 
-
+  return (
+    <CitofoniaProvider>
+      <VistaCitofonia />
+    </CitofoniaProvider>
   )
 }

@@ -1,9 +1,12 @@
 import notifee, { AndroidCategory, AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setInfoUserLLamada } from '../redux/citofoniaReducer';
 function useNotificacion() {
 
     const navigation = useNavigation<any>()
+    const dispatch = useDispatch()
 
     // Escuchar eventos cuando la app está ABIERTA (Foreground)
     useEffect(() => {
@@ -14,9 +17,10 @@ function useNotificacion() {
 
         });
     }, []);
-    
-    const notificacionLlamada = async (infoLlamada: any) => {
+
+    const notificacionLlamada = async (infoLlamada: Object | any) => {
         await notifee.requestPermission();
+        console.log(infoLlamada, "ddddd")
 
         // 1. Definir las categorías y acciones para iOS
         await notifee.setNotificationCategories([
@@ -48,7 +52,7 @@ function useNotificacion() {
 
         await notifee.displayNotification({
             title: 'LLamada entrante',
-            body: `Tienes una llamada de ${infoLlamada}`,
+            body: `Tienes una llamada de la torre ${infoLlamada[0]?.torre} apartamento ${infoLlamada[0]?.apartamento}`,
             android: {
                 channelId,
                 category: AndroidCategory.CALL, // Importante: Define que es una llamada
@@ -56,21 +60,11 @@ function useNotificacion() {
                 visibility: AndroidVisibility.PUBLIC,
                 ongoing: true, // No se puede cerrar deslizando
                 loopSound: true, // El sonido se repite (como un timbre)
-                
+
                 // Esto hace que la app se abra en pantalla completa automáticamente
                 fullScreenAction: {
                     id: 'default',
                 },
-                actions: [
-                    {
-                        title: '<p style="color: #4caf50;"><b>Contestar</b></p>',
-                        pressAction: { id: 'answer', launchActivity: 'default' },
-                    },
-                    {
-                        title: '<p style="color: #f44336;"><b>Colgar</b></p>',
-                        pressAction: { id: 'decline' },
-                    },
-                ]
             },
             ios: {
                 critical: true,
@@ -87,6 +81,9 @@ function useNotificacion() {
                 ]
             }
         });
+
+        dispatch(setInfoUserLLamada(infoLlamada))
+
     }
 
 

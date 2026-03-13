@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginReducer from "../redux/loginReducer";
+import citofoniaReducer from "./citofoniaReducer";
+import loginReducer from "./loginReducer";
 
 export const store = configureStore({
-    reducer:{
-        loginReducer: loginReducer
+    reducer: {
+        loginReducer: loginReducer,
+        citofoniaReducer: citofoniaReducer
     }
 })
 

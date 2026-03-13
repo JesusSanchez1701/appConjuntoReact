@@ -6,13 +6,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useCitofonia } from '../../pages/Citofonia/Hooks/useCitofonia';
 import styles from './styles/styles';
 
-export default function ModalCall() {
+//redux
+import { useSelector } from 'react-redux';
+export default function ModalCall({ route }: any) {
     const navigation = useNavigation<any>()
     const [timer, setTimer] = useState(0);
-    const { contestarLlamada, colgarLlamada } = useCitofonia()
+    // data del usuario 
+    const dataUsuario = useSelector((state: any) => state.citofoniaReducer.infUserCall)
     useEffect(() => {
         const interval = setInterval(() => {
             setTimer((prev) => prev + 1);
@@ -20,6 +22,21 @@ export default function ModalCall() {
 
         return () => clearInterval(interval);
     }, []);
+
+
+    const contestar = () => {
+        console.log(route.params)
+        route.params.funcion[0]()
+    }
+
+    const colgar = () => {
+        route.params.funcion[1]()
+        navigation.goBack()
+    }
+
+    const rechazar = () =>{
+
+    }
 
     return (
         <LinearGradient
@@ -36,7 +53,14 @@ export default function ModalCall() {
                 {/* MAIN CONTENT */}
                 <View style={styles.mainContent}>
                     <Text style={styles.statusText}>CONECTADO</Text>
-                    <Text style={styles.callerName}>Portería Principal</Text>
+                    {route.params?.isIncomingCall ?
+                        <Text style={styles.callerName}>
+                            Tienes una llamada de ff Torre {dataUsuario[0]?.torre} Apartamento {dataUsuario[0]?.apartamento}
+                        </Text>
+                        : <Text style={styles.callerName}>
+                            LLamando a Torre {dataUsuario[0]?.torre} Apartamento {dataUsuario[0]?.apartamento}
+                        </Text>
+                    }
                     <Text style={styles.timerText}>{`${Math.floor(timer / 60)}:${(timer % 60).toString().padStart(2, '0')}`}</Text>
 
                     {/* AVATAR + RINGS */}
@@ -72,15 +96,21 @@ export default function ModalCall() {
                         </View>
                     </View>
                     {/* botones de contestar y rechazar  */}
-                    <View style={styles.contenedorButtonsllamada}>
-                        <TouchableOpacity onPress={() => [contestarLlamada()]} style={[styles.hangupButton, styles.hangupButtonAceptar]}>
+                    {route.params?.isIncomingCall ? <View style={styles.contenedorButtonsllamada}>
+
+                        <TouchableOpacity onPress={() => contestar()} style={[styles.hangupButton, styles.hangupButtonAceptar]}>
                             <FontAwesome name="phone" size={36} color="white" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => [navigation.goBack()]} style={[styles.hangupButton, styles.hangupButtonRechazar]}>
+                        <TouchableOpacity onPress={() => colgar()} style={[styles.hangupButton, styles.hangupButtonRechazar]}>
                             <FontAwesome name="phone" size={36} color="white" />
                         </TouchableOpacity>
-                    </View>
+
+                    </View> : <View>
+                        <TouchableOpacity onPress={() => colgar()} style={[styles.hangupButton, styles.hangupButtonRechazar]}>
+                            <FontAwesome name="phone" size={36} color="white" />
+                        </TouchableOpacity>
+                    </View>}
 
                 </View>
             </SafeAreaView>

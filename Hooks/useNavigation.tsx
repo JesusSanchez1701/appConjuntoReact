@@ -7,8 +7,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //pages
 import Header from "../components/Header/Header";
 import HeaderDrawer from "../components/Header/HeaderDrawer";
-import ModalCall from "../components/ModalCall/ModalCall";
 import Citofonia from "../pages/Citofonia/Citofonia";
+import ModalCall from "../pages/Citofonia/ModalCall/ModalCall";
 import Configuracion from "../pages/Configuracion/Configuracion";
 import Conjunto from "../pages/Conjunto/Conjunto";
 import Home from "../pages/Home/Home";
