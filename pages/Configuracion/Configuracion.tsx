@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import { Inputs } from "../../components/Inputs/Inputs";
@@ -13,7 +13,7 @@ import { useConfiguracion } from "./Hooks/useConfiguracion";
 
 export default function Configuracion() {
 
-  const { infoUsuario, actualizarUsuario } = useConfiguracion()
+  const { infoUsuario, actualizarUsuario, listarMisPublicaciones } = useConfiguracion()
   const { control, handleSubmit, reset, formState: { errors } } = useForm(
     {
       defaultValues: {
@@ -29,6 +29,7 @@ export default function Configuracion() {
   useEffect(() => {
     if (infoUsuario) {
       reset({
+      
         nombres: infoUsuario.nombres,
         documento: infoUsuario.documento,
         correo: infoUsuario.correo,
@@ -77,16 +78,16 @@ export default function Configuracion() {
         <Card _style={styles.cardStyles} _children={
           <>
             <View style={styles.contanerTitle}>
-              <Text style={styles.tituloCard}>Publicaciones realizadas</Text>
+              <Text style={styles.tituloCard}>Publicaciones </Text>
             </View>
             <View style={styles.containerInfo}>
-              <Text>Venta de bicicleta</Text>
-              <Text style={globalStyles.textoOlidoPassword}>Ver</Text>
-            </View>
+              <Text>Mis publicaciones</Text>
+              <Pressable
+                onPress={listarMisPublicaciones}
+              >
+                <Text style={globalStyles.textoOlidoPassword}>Ver</Text>
 
-            <View style={styles.containerInfo}>
-              <Text>Corre</Text>
-              <Text style={globalStyles.textoOlidoPassword}>Ver</Text>
+              </Pressable>
             </View>
           </>
         } />

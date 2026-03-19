@@ -42,6 +42,7 @@ export function useApi() {
         }
     }
 
+    // peticion para cargar imagenes 
     const peticionPostMultipart = async (endPoint: string, formData: FormData) => {
         try {
             const url = `${host}/${endPoint}`
@@ -62,7 +63,8 @@ export function useApi() {
     return {
         peticionGet,
         peticionPost,
-        peticionPut
+        peticionPut,
+        peticionPostMultipart
 
     }
 }

@@ -1,16 +1,16 @@
+import { useNavigation } from "@react-navigation/native"
 import { useEffect, useState } from "react"
 import { Alert } from "react-native"
 import { useApi } from "../../../Hooks/useApi"
 import { useGenerales } from "../../../Hooks/useGenerales"
-
 function useConfiguracion() {
     useEffect(() => {
         perfilUsuario()
     }, [])
 
-    const { peticionGet, peticionPut } = useApi()
+    const { peticionGet, peticionPut, peticionPost } = useApi()
     const { informacionUsuario, responsePeticion } = useGenerales()
-
+    const navigate = useNavigation<any>()
     const [infoUsuario, setInfoUsuario] = useState<any>([])
 
     const perfilUsuario = async () => {
@@ -44,9 +44,23 @@ function useConfiguracion() {
         }
     }
 
+    const listarMisPublicaciones = async () =>{
+        const data = {
+            id_usuario: infoUsuario.id_usuario,
+            page: 1,
+        }
+        const peticionApi = await peticionPost('consultarMiscarteleras', data)
+        const dataPeticion = await responsePeticion(peticionApi)
+        if(new Array(dataPeticion).length > 0){
+            navigate.navigate('Publicaciones', {infPublicaciones: dataPeticion.respuesta.data, tipoView: 'misPublicaciones'})
+        }
+
+    }
+
     return {
         infoUsuario,
-        actualizarUsuario
+        actualizarUsuario,
+        listarMisPublicaciones
     }
 }
 

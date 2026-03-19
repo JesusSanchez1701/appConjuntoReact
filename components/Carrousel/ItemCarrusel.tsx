@@ -1,7 +1,7 @@
-import { Text, Image, StyleSheet } from "react-native"
-import { ItemCarruselComponent } from "./types"
-import { LinearGradient } from "expo-linear-gradient"
-import Animated, { Extrapolation, interpolate, useAnimatedStyle } from "react-native-reanimated"
+import { LinearGradient } from "expo-linear-gradient";
+import { Image, StyleSheet, Text } from "react-native";
+import Animated, { Extrapolation, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import { ItemCarruselComponent } from "./types";
 
 const ITEM_WIDTH = 300;
 const ITEM_MARGIN = 10;

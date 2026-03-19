@@ -48,7 +48,7 @@ export default function Home() {
                     <View style={styles.containerImgPublicacion}>
                         <FlatList
                             data={image}
-                            keyExtractor={(index) => index.toString()}
+                            keyExtractor={(item) => item.uri}
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => (

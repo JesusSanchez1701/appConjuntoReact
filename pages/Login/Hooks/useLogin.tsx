@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useApi } from "../../../Hooks/useApi";
 import { useGenerales } from '../../../Hooks/useGenerales';
 import { setInformacionUsuario } from "../../../redux/loginReducer";
+
 function useLogin() {
     const navigation = useNavigation<any>()
     const { peticionPost } = useApi()
@@ -12,7 +13,16 @@ function useLogin() {
     const { responsePeticion } = useGenerales()
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        validarSesion()
+    }, [])
 
+    const validarSesion = async () => {
+        const infoUsuarioRaw: string | null = await AsyncStorage.getItem("infoUsuario")
+        if (infoUsuarioRaw) {
+            navigation.navigate('Views')
+        }
+    }
 
     const openRegistro = () => {
         navigation.navigate('Registro')
@@ -38,7 +48,7 @@ function useLogin() {
 
     }
 
-    
+
 
     return {
         openRegistro,

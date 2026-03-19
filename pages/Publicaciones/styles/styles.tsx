@@ -24,8 +24,61 @@ const styles = StyleSheet.create({
     },
     pagerView: {
         flex: 1,
-        width:"50%"
+        width: "50%"
     },
+
+    // container publicaciones
+    containerPub: {
+        backgroundColor: "#ffff",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        borderRadius: 10,
+        position: "relative"
+    },
+    infoImage: {
+        position: "absolute",
+        top: 0,
+        right: 5
+    },
+    textInfoImagen: {
+        color: "#fff",
+        fontSize: 15,
+        fontWeight: "700"
+    },
+    
+    listaImg: {
+
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: "rgba(0,0,0,0.4)", // 👈 intensidad del oscuro
+        borderRadius: 10,
+    },
+    imgLista: {
+        width: 400,
+        height: 200,
+        borderRadius: 10
+    },
+    infoPublicacion: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 10,
+        paddingBottom: 5,
+    },
+    tituloPublicacion: {
+        fontWeight: "700",
+        fontSize: 18,
+    },
+    descPublicacion: {
+        fontWeight: "500",
+        fontSize: 15
+    },
+    enlacePub: {
+
+    }
 })
 
 export default styles;
