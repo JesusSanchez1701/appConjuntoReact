@@ -7,7 +7,7 @@ import MisPublicaciones from './MisPublicaciones';
 import styles from "./styles/styles";
 export default function Publicaciones({ route }: any) {
     const navigate = useNavigation<any>()
-
+    
     return (
         <SafeAreaView>
             <View style={styles.container}>

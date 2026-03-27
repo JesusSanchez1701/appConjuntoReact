@@ -159,6 +159,12 @@ const globalStyles = StyleSheet.create({
 
     },
 
+    card2Col: {
+        width: "48.28%",
+        marginBottom: 10,
+        marginHorizontal: 3
+    },
+
     //contenedor servicios
     contentServicios:{
         display:"flex",

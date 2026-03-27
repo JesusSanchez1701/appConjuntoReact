@@ -11,8 +11,6 @@ function useCitofonia() {
     }, [])
     //llamando a los context 
     const { llamarUsuario } = useContext(CitofoniaContext)
-
-
     const { peticionGet } = useApi();
 
     const [listUsuarios, setListUsuarios] = useState<any[]>([]);

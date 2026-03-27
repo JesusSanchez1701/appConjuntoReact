@@ -52,7 +52,7 @@ function useConfiguracion() {
         const peticionApi = await peticionPost('consultarMiscarteleras', data)
         const dataPeticion = await responsePeticion(peticionApi)
         if(new Array(dataPeticion).length > 0){
-            navigate.navigate('Publicaciones', {infPublicaciones: dataPeticion.respuesta.data, tipoView: 'misPublicaciones'})
+            navigate.navigate('Publicaciones', {infPublicaciones: dataPeticion, tipoView: 'misPublicaciones'})
         }
 
     }
