@@ -7,7 +7,7 @@ function usePublicaciones() {
     const [publicaciones, setPublicaciones] = useState<any>([])
     const [countImg, setCountImg] = useState(0)
     const listarPublicaciones = async () => {
-        const peticionApi = await peticionGet('publicaciones')
+        const peticionApi = await peticionGet('listarCarteleras/1')
         const dataPublicaciones = await responsePeticion(peticionApi)
         setPublicaciones(dataPublicaciones)
     }

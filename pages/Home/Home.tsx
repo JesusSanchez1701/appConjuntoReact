@@ -1,9 +1,8 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { useNavigation } from "@react-navigation/native";
+import { Image } from 'expo-image';
 import { Controller, useForm } from 'react-hook-form';
-import { FlatList, Image, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
-import Buscador from "../../components/Buscador/Buscador";
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import Carrousel from "../../components/Carrousel/Carrousel";
@@ -12,11 +11,11 @@ import globalStyles from "../../StylesGlobal/stylesGlobal";
 import { useHome } from './hooks/useHome';
 import styles from "./styles/styles";
 export default function Home() {
-    const navigation = useNavigation<any>()
     const {
         setModalVisible,
         seleccionarImagen,
         realizarPublicacion,
+        listarTodasPublicaciones,
         image,
         modalVisible,
     } = useHome()
@@ -167,7 +166,6 @@ export default function Home() {
             <ScrollView>
                 {/* view del home */}
                 <View style={styles.container}>
-                    <Buscador />
                     <Card _imagen="https://urbansa.co/wp-content/uploads/2021/12/2.png"
                         _body={
                             <>
@@ -182,7 +180,7 @@ export default function Home() {
 
                     <View style={styles.containertextoAnuncios}>
                         <Text style={styles.textoAnuncio}>Anuncios</Text>
-                        <Pressable onPress={() => navigation.navigate('Publicaciones')}>
+                        <Pressable onPress={listarTodasPublicaciones}>
                             <Text style={styles.textoAnuncio}>Ver todo</Text>
                         </Pressable>
                     </View>

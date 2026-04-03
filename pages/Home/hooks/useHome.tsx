@@ -1,14 +1,17 @@
+import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
 import { useApi } from "../../../Hooks/useApi";
 import { useGenerales } from "../../../Hooks/useGenerales";
 function useHome() {
-    const { peticionPostMultipart } = useApi()
+    const { peticionPostMultipart, peticionGet } = useApi()
     const { responsePeticion,
         modalVisible,
         setModalVisible,
         seleccionarImagen,
-        image,
-        dataUsuario } = useGenerales()
+        image } = useGenerales()
+    
+    const navigate = useNavigation<any>()
+
 
     const realizarPublicacion = async (dataPublicacion: any) => {
 
@@ -31,12 +34,21 @@ function useHome() {
             formData.append('imgPublicacion', archivoSubir);
         })
 
-        const peticionApi =await peticionPostMultipart(`crearCarteleraImages`, formData)
+        const peticionApi = await peticionPostMultipart(`crearCarteleraImages`, formData)
         const dataPeticion = await responsePeticion(peticionApi)
         if (new Array(dataPeticion).length > 0) {
             Alert.alert('Exito!', 'Publicacion realizada correctamente');
             setModalVisible(false);
         }
+    }
+
+    const listarTodasPublicaciones = async () => {
+        const peticionApi = await peticionGet('listarCarteleras/1')
+        const dataPeticion = await responsePeticion(peticionApi)
+        if (new Array(dataPeticion).length > 0) {
+            navigate.navigate('Publicaciones', { infPublicaciones: dataPeticion, tipoView: 'publicaciones' })
+        }
+
     }
 
 
@@ -45,6 +57,7 @@ function useHome() {
         setModalVisible,
         seleccionarImagen,
         realizarPublicacion,
+        listarTodasPublicaciones,
         image,
         modalVisible,
 

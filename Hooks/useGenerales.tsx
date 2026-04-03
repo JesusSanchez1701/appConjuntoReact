@@ -27,6 +27,7 @@ function useGenerales() {
 
     const cerrarSesion = async () => {
         await AsyncStorage.removeItem("infoUsuario")
+        await AsyncStorage.removeItem("menuUsuario")
         dispatch(limpiarStateLogin())
         navigation.navigate("Login")
     }
