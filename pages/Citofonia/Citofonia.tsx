@@ -4,17 +4,19 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Pressable, Text, View } from "react-native";
 import Buscador from "../../components/Buscador/Buscador";
 import Card from "../../components/Card/Card";
+import Loader from '../../components/Loader/Loader';
 import globalStyles from "../../StylesGlobal/stylesGlobal";
 import { CitofoniaProvider } from "./Context/CitofoniaContext";
 import { useCitofonia } from "./Hooks/useCitofonia";
 import styles from "./styles/styles";
 
 const VistaCitofonia = () => {
-  const { listUsuarios, llamarUsuario } = useCitofonia()
+  const { listUsuarios, llamarUsuario, cargando } = useCitofonia()
 
   return (
     <View style={styles.container}>
       {/* contacto a porteria */}
+      <Loader visible={cargando} />
       <View style={styles.containerCitofonia}>
         <Card _style={styles.cardStyles} _children={
           <View style={styles.containerCitofonia}>

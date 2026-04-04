@@ -4,13 +4,14 @@ import { Controller, useForm } from 'react-hook-form';
 import { Pressable, Text, TouchableOpacity, View, useColorScheme } from 'react-native';
 import Button from '../../components/Button/Button';
 import { Inputs } from '../../components/Inputs/Inputs';
+import Loader from '../../components/Loader/Loader';
 import globalStyles from '../../StylesGlobal/stylesGlobal';
 import { useLogin } from './Hooks/useLogin';
 export default function Login() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
 
-  const { openIngresar, openRegistro } = useLogin();
+  const { openIngresar, openRegistro, cargando } = useLogin();
   const { recordarUsuario, saveUser } = useLogin();
 
   const textStyle = isDarkMode ? globalStyles.textDark : globalStyles.textLight;
@@ -32,6 +33,7 @@ export default function Login() {
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
     >
+      <Loader visible={cargando} />
       <Text style={[globalStyles.title, textStyle]}>Bienvenido de vuelta</Text>
 
       <View style={globalStyles.contenedorTxt}>

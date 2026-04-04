@@ -14,12 +14,15 @@ function useCitofonia() {
     const { peticionGet } = useApi();
 
     const [listUsuarios, setListUsuarios] = useState<any[]>([]);
+    const [cargando, setCargando] = useState(false);
     //redux
     const dispatch = useDispatch()
 
     const listarUsuariosConjunto = async () => {
+        setCargando(true);
         const res = await peticionGet("listarUsuarios");
         if (res?.data?.status === 200) {
+            setCargando(false);
             setListUsuarios(res.data.respuesta);
             dispatch(setListaUsuarios(res.data.respuesta))
         }
@@ -28,7 +31,8 @@ function useCitofonia() {
 
     return {
         llamarUsuario,
-        listUsuarios
+        listUsuarios,
+        cargando
     };
 }
 

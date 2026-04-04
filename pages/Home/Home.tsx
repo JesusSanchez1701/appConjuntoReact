@@ -162,8 +162,8 @@ export default function Home() {
                     </View>
                 </View>
             </Modal>
-
             <ScrollView>
+
                 {/* view del home */}
                 <View style={styles.container}>
                     <Card _imagen="https://urbansa.co/wp-content/uploads/2021/12/2.png"

@@ -11,6 +11,7 @@ function useLogin() {
     const { peticionPost } = useApi()
     const [saveUser, setSaveUser] = useState(false);
     const { responsePeticion } = useGenerales()
+    const [cargando, setCargando] = useState(false)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -37,13 +38,14 @@ function useLogin() {
 
 
     const openIngresar = async (dataLogin: any) => {
-
+        setCargando(true)
         const peticionApi = await peticionPost('loginUsuario', dataLogin)
         const dataUser = await responsePeticion(peticionApi)
         if (dataUser && typeof dataUser === 'object') {
             await AsyncStorage.setItem("infoUsuario", JSON.stringify(dataUser))
             dispatch(setInformacionUsuario(dataUser))
             navigation.navigate('Views')
+            setCargando(false)
         }
 
     }
@@ -54,7 +56,8 @@ function useLogin() {
         openRegistro,
         openIngresar,
         recordarUsuario,
-        saveUser
+        saveUser,
+        cargando
 
 
 
